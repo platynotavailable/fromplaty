@@ -12,7 +12,22 @@
     color: white;
     text-align: center;
   }
+#loveMessage {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fff;
+  background: linear-gradient(90deg, hotpink, purple);
+  padding: 10px;
+  border-radius: 15px;
+  animation: glow 2s infinite alternate;
+}
 
+@keyframes glow {
+  from { box-shadow: 0 0 5px hotpink; }
+  to { box-shadow: 0 0 15px violet; }
+}
   canvas {
     display: block;
     margin: auto;
@@ -54,11 +69,15 @@
 </head>
 
 <body>
+  <div id="loveMessage">
+  Catch the 15 hearts for me, babydoll 💕
+</div>
+
 <div id="score">Hearts: 0</div>
 <canvas id="game"></canvas>
 
 <div id="messageBox">
-  <h1>New Option Unlocked 💖</h1>
+  <h1>Yayy you did it!</h1>
   <p style="font-size:22px; max-width:800px; margin:auto;">
     You unlocked my heart ❤️. I love you soo much babydoll and always be there for you.
     You are the best thing that ever happened to me and the best girlfriend.
