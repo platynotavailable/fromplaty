@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Catch My Heart 💖</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff7eb3, #2b1055);
+    font-family: Comic Sans MS, cursive;
+    color: white;
+    text-align: center;
+  }
+
+  canvas {
+    display: block;
+    margin: auto;
+  }
+
+  #score {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    background: rgba(0,0,0,0.4);
+    padding: 10px 20px;
+    border-radius: 20px;
+  }
+
+  #messageBox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #ff7eb3, #2b1055);
+    color: white;
+    padding: 40px;
+  }
+
+  #messageBox h1 {
+    margin-top: 100px;
+  }
+
+  button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 20px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+<div id="score">Hearts: 0</div>
+<canvas id="game"></canvas>
+
+<div id="messageBox">
+  <h1>New Option Unlocked 💖</h1>
+  <p style="font-size:22px; max-width:800px; margin:auto;">
+    You unlocked my heart ❤️. I love you soo much babydoll and always be there for you.
+    You are the best thing that ever happened to me and the best girlfriend.
+    Love you forever 💞
+  </p>
+  <br><br>
+  <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let basket = {
+  x: canvas.width / 2 - 50,
+  y: canvas.height - 80,
+  width: 100,
+  height: 30
+};
+
+let hearts = [];
+let score = 0;
+const targetScore = 15;
+
+document.addEventListener("mousemove", e => {
+  basket.x = e.clientX - basket.width / 2;
+});
+
+function createHeart() {
+  hearts.push({
+    x: Math.random() * (canvas.width - 30),
+    y: -30,
+    size: 30,
+    speed: 3 + Math.random() * 2
+  });
+}
+
+setInterval(createHeart, 800);
+
+function drawBasket() {
+  ctx.fillStyle = "#ff4d6d";
+  ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
+}
+
+function drawHearts() {
+  hearts.forEach(h => {
+    ctx.font = h.size + "px Arial";
+    ctx.fillText("❤️", h.x, h.y);
+  });
+}
+
+function updateHearts() {
+  hearts.forEach((h, i) => {
+    h.y += h.speed;
+
+    // Collision
+    if (
+      h.x < basket.x + basket.width &&
+      h.x + h.size > basket.x &&
+      h.y < basket.y + basket.height &&
+      h.y + h.size > basket.y
+    ) {
+      hearts.splice(i, 1);
+      score++;
+      document.getElementById("score").innerText = "Hearts: " + score;
+
+      if (score >= targetScore) {
+        endGame();
+      }
+    }
+
+    if (h.y > canvas.height) {
+      hearts.splice(i, 1);
+    }
+  });
+}
+
+function endGame() {
+  document.getElementById("messageBox").style.display = "block";
+}
+
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBasket();
+  drawHearts();
+  updateHearts();
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
+</body>
+</html>
